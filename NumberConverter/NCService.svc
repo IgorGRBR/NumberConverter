@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="NumberConverter.NCService" CodeBehind="NCService.svc.cs" %>

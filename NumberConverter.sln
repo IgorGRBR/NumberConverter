@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplicationNovember", "WindowsFormsApplicationNovember\WindowsFormsApplicationNovember.csproj", "{1E0FDFED-763B-4501-9577-5FCDCFCC5B0A}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberConverter", "NumberConverter\NumberConverter.csproj", "{68E5AF24-CF88-42FB-BB2F-0B2BF3DB73F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCServer", "NCServer\NCServer.csproj", "{E3B5C32A-376E-4337-89F9-216B8E06B984}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E0FDFED-763B-4501-9577-5FCDCFCC5B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E0FDFED-763B-4501-9577-5FCDCFCC5B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E0FDFED-763B-4501-9577-5FCDCFCC5B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E0FDFED-763B-4501-9577-5FCDCFCC5B0A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68E5AF24-CF88-42FB-BB2F-0B2BF3DB73F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{68E5AF24-CF88-42FB-BB2F-0B2BF3DB73F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68E5AF24-CF88-42FB-BB2F-0B2BF3DB73F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68E5AF24-CF88-42FB-BB2F-0B2BF3DB73F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3B5C32A-376E-4337-89F9-216B8E06B984}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3B5C32A-376E-4337-89F9-216B8E06B984}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3B5C32A-376E-4337-89F9-216B8E06B984}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3B5C32A-376E-4337-89F9-216B8E06B984}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
