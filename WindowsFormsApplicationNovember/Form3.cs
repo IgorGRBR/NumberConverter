@@ -45,7 +45,7 @@ namespace WindowsFormsApplicationNovember
             }
 
             //Load a new list
-            List<Conversion> history = remoteProxy.GetHistory(client.Id);
+            List<Conversion> history = remoteProxy.GetHistory(client.Id).Result;
             tableLayoutPanel1.RowCount = history.Count;
             int row_count = 0;
             foreach (var h in history)

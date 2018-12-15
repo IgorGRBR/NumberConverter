@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NumberConverter
 {
@@ -13,33 +14,49 @@ namespace NumberConverter
     {
         //Registers new user with given name and password. Returns user id.
         [OperationContract]
-        int RegisterUser(string name, string pass);
+        Task<int> RegisterUser(string name, string pass);
         
         //Returns user id if given name and password pair exists in db.
         [OperationContract]
-        int GetUser(string name, string pass);
+        Task<int> GetUser(string name, string pass);
 
         //Returns user id if given access token exists in db. Generates new token.
         [OperationContract]
-        int GetUserByToken(string token);
+        Task<int> GetUserByToken(string token);
 
         //Returns user data from id
         [OperationContract]
-        Models.User GetUserData(int id);
+        Task<Models.User> GetUserData(int id);
 
         //Converts number and returns conversion id
         [OperationContract]
-        int ConvertNumber(int value, int userId);
+        Task<int> ConvertNumber(int value, int userId);
 
         //Returns users conversion history
         [OperationContract]
-        List<Models.Conversion> GetHistory(int userId);
+        Task<List<Models.Conversion>> GetHistory(int userId);
 
         //Returns a single conversion
         [OperationContract]
-        Models.Conversion GetConversion(int convId);
+        Task<Models.Conversion> GetConversion(int convId);
 
-        //Helper method to generate access tokens
-        string GenerateToken(Models.User user);
+        //And async versions of these methods:
+        
+        /*
+        [OperationContract]
+        Task<int> RegisterUserAsync(string name, string pass);
+        [OperationContract]
+        Task<int> GetUserAsync(string name, string pass);
+        [OperationContract]
+        Task<int> GetUserByTokenAsync(string token);
+        [OperationContract]
+        Task<Models.User> GetUserDataAsync(int id);
+        [OperationContract]
+        Task<int> ConvertNumberAsync(int value, int userId);
+        [OperationContract]
+        Task<List<Models.Conversion>> GetHistoryAsync(int userId);
+        [OperationContract]
+        Task<Models.Conversion> GetConversionAsync(int convId);
+        */
     }
 }

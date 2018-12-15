@@ -29,10 +29,10 @@ namespace WindowsFormsApplicationNovember
         {
             string savedToken = File.ReadAllText("Token.txt");
 
-            int userId = remoteProxy.GetUserByToken(savedToken);
+            int userId = remoteProxy.GetUserByToken(savedToken).Result;
             if (userId > -1)
             {
-                User u = remoteProxy.GetUserData(userId);
+                User u = remoteProxy.GetUserData(userId).Result;
                 Hide();
                 Form2 LOGIN = new Form2(remoteProxy, u);
                 LOGIN.ShowDialog();
@@ -45,11 +45,11 @@ namespace WindowsFormsApplicationNovember
             string username = textBox1.Text;
             string password = textBox2.Text;
 
-            int userId = remoteProxy.GetUser(username, password);
+            int userId = remoteProxy.GetUser(username, password).Result;
 
             if (userId > -1)
             {
-                User u = remoteProxy.GetUserData(userId);
+                User u = remoteProxy.GetUserData(userId).Result;
                 Hide();
                 Form2 LOGIN = new Form2(remoteProxy, u);
                 LOGIN.ShowDialog();
@@ -67,11 +67,11 @@ namespace WindowsFormsApplicationNovember
             string username = textBox1.Text;
             string password = textBox2.Text;
 
-            int userId = remoteProxy.RegisterUser(username, password);
+            int userId = remoteProxy.RegisterUser(username, password).Result;
 
             if (userId > -1)
             {
-                User u = remoteProxy.GetUserData(userId);
+                User u = remoteProxy.GetUserData(userId).Result;
                 Hide();
                 Form2 LOGIN = new Form2(remoteProxy, u);
                 LOGIN.ShowDialog();

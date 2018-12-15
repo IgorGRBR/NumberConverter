@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using NumberConverter.Models;
 
 namespace NumberConverter
@@ -20,16 +23,23 @@ namespace NumberConverter
 
         private NCContext _context { get; set; }
 
-        public int ConvertNumber(int value, int userId)
+        public async Task<int> ConvertNumber(int value, int userId)
         {
-            Conversion conversion = new Conversion();
-            conversion.Original = value.ToString();
-            conversion.Converted = ToRoman(value);
-            conversion.ConversionTime = DateTime.Now.ToString();
-            conversion.UserId = userId;
-            _context.Conversions.Add(conversion);
-            _context.SaveChanges();
-            return conversion.Id;
+            var task = Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(100);
+
+                Conversion conversion = new Conversion();
+                conversion.Original = value.ToString();
+                conversion.Converted = ToRoman(value);
+                conversion.ConversionTime = DateTime.Now.ToString();
+                conversion.UserId = userId;
+                _context.Conversions.Add(conversion);
+                _context.SaveChangesAsync();
+                return conversion.Id;
+            });
+           
+            return await task.ConfigureAwait(false);
         }
 
         public string GenerateToken(User user)
@@ -38,44 +48,79 @@ namespace NumberConverter
             return user.CurrentToken;
         }
 
-        public List<Conversion> GetHistory(int userId)
+        public async Task<List<Conversion>> GetHistory(int userId)
         {
-            var result = _context.Conversions.Where(c => c.UserId == userId).ToList();
-            return result;
+            var task = Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(2000);
+
+                var result = _context.Conversions.Where(c => c.UserId == userId).ToList();
+                return result;
+            });
+            
+            return await task.ConfigureAwait(false);
         }
 
-        public int GetUser(string name, string pass)
+        public async Task<int> GetUser(string name, string pass)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Name == name && u.Password == pass);
-            if (user == null) return -1;
-            user.CurrentToken = GenerateToken(user);
-            _context.SaveChanges();
-            return user.Id;
+            var task = Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(1000);
+
+                var user = _context.Users.SingleOrDefaultAsync(u => u.Name == name && u.Password == pass).Result;
+                if (user == null) return -1;
+                user.CurrentToken = GenerateToken(user);
+                _context.SaveChangesAsync();
+                return user.Id;
+            });
+            
+            return await task.ConfigureAwait(false);
         }
 
-        public int GetUserByToken(string token)
+        public async Task<int> GetUserByToken(string token)
         {
-            var user = _context.Users.SingleOrDefault(u => u.CurrentToken == token);
-            if (user == null) return -1;
-            user.CurrentToken = GenerateToken(user);
-            _context.SaveChanges();
-            return user.Id;
+            var task = Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(200);
+
+                var user = _context.Users.SingleOrDefaultAsync(u => u.CurrentToken == token).Result;
+                if (user == null) return -1;
+                user.CurrentToken = GenerateToken(user);
+                _context.SaveChangesAsync();
+                return user.Id;
+            });
+            
+            return await task.ConfigureAwait(false);
         }
 
-        public User GetUserData(int id)
+        public async Task<User> GetUserData(int id)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Id == id);
-            return user;
+            var task = Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(400);
+
+                var user = _context.Users.SingleOrDefaultAsync(u => u.Id == id).Result;
+                return user;
+            });
+            
+            return await task.ConfigureAwait(false);
         }
 
-        public int RegisterUser(string name, string pass)
+        public async Task<int> RegisterUser(string name, string pass)
         {
-            User user = new User();
-            user.Name = name;
-            user.Password = pass;
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            return user.Id;
+            var task = Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(2000);
+                User user = new User();
+                user.Name = name;
+                user.Password = pass;
+                _context.Users.Add(user);
+                _context.SaveChangesAsync();
+
+                return user.Id;
+            });
+
+            return await task.ConfigureAwait(false);
         }
 
         //Helper method that converts numbers to roman
@@ -98,10 +143,17 @@ namespace NumberConverter
             return string.Empty;
         }
 
-        public Conversion GetConversion(int convId)
+        public async Task<Conversion> GetConversion(int convId)
         {
-            var conversion = _context.Conversions.SingleOrDefault(c => c.Id == convId);
-            return conversion;
+            var task = Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(200);
+
+                var conversion = _context.Conversions.SingleOrDefaultAsync(c => c.Id == convId).Result;
+                return conversion;
+            });
+
+            return await task.ConfigureAwait(false);
         }
     }
 }

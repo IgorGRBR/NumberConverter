@@ -51,8 +51,8 @@ namespace WindowsFormsApplicationNovember
                 int num = Int32.Parse(input);
                 if (input == num.ToString()) //Check if it is a number
                 {
-                    int convId = remoteProxy.ConvertNumber(num, client.Id);
-                    Conversion result = remoteProxy.GetConversion(convId);
+                    int convId = remoteProxy.ConvertNumber(num, client.Id).Result;
+                    Conversion result = remoteProxy.GetConversion(convId).Result;
                     textBox2.Text = result.Converted;
                 }
             }
