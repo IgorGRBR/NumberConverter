@@ -43,7 +43,7 @@ namespace WindowsFormsApplicationNovember
             HISTORY.ShowDialog();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             string input = textBox1.Text;
             if (input != String.Empty)
@@ -51,8 +51,16 @@ namespace WindowsFormsApplicationNovember
                 int num = Int32.Parse(input);
                 if (input == num.ToString()) //Check if it is a number
                 {
-                    int convId = remoteProxy.ConvertNumber(num, client.Id).Result;
-                    Conversion result = remoteProxy.GetConversion(convId).Result;
+                    Conversion result = null; 
+                    IProgress<int> progress = new Progress<int>(value => { progressBar1.Value = value; });
+                    await Task.Run(() =>
+                    {
+                        progress.Report(33);
+                        int convId = remoteProxy.ConvertNumber(num, client.Id).Result;
+                        progress.Report(66);
+                        result = remoteProxy.GetConversion(convId).Result;
+                        progress.Report(100);
+                    });
                     textBox2.Text = result.Converted;
                 }
             }

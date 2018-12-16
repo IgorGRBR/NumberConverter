@@ -35,7 +35,7 @@ namespace WindowsFormsApplicationNovember
 
         }
 
-        private void Form3_Load(object sender, EventArgs e)
+        private async void Form3_Load(object sender, EventArgs e)
         {
             //First we empty the list
             if (tableLayoutPanel1.RowCount > 0)
@@ -45,7 +45,11 @@ namespace WindowsFormsApplicationNovember
             }
 
             //Load a new list
-            List<Conversion> history = remoteProxy.GetHistory(client.Id).Result;
+            List<Conversion> history = null;
+            await Task.Run(() =>
+            {
+                history = remoteProxy.GetHistory(client.Id).Result;
+            });
             tableLayoutPanel1.RowCount = history.Count;
             int row_count = 0;
             foreach (var h in history)
@@ -62,6 +66,7 @@ namespace WindowsFormsApplicationNovember
                 tableLayoutPanel1.Controls.Add(conv_label, 2, row_count);
                 row_count++;
             }
+            label4.Visible = false;
         }
     }
 }

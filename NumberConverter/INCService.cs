@@ -39,24 +39,5 @@ namespace NumberConverter
         //Returns a single conversion
         [OperationContract]
         Task<Models.Conversion> GetConversion(int convId);
-
-        //And async versions of these methods:
-        
-        /*
-        [OperationContract]
-        Task<int> RegisterUserAsync(string name, string pass);
-        [OperationContract]
-        Task<int> GetUserAsync(string name, string pass);
-        [OperationContract]
-        Task<int> GetUserByTokenAsync(string token);
-        [OperationContract]
-        Task<Models.User> GetUserDataAsync(int id);
-        [OperationContract]
-        Task<int> ConvertNumberAsync(int value, int userId);
-        [OperationContract]
-        Task<List<Models.Conversion>> GetHistoryAsync(int userId);
-        [OperationContract]
-        Task<Models.Conversion> GetConversionAsync(int convId);
-        */
     }
 }

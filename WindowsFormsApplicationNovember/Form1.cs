@@ -40,16 +40,37 @@ namespace WindowsFormsApplicationNovember
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void Button1_Click(object sender, EventArgs e)
         {
             string username = textBox1.Text;
             string password = textBox2.Text;
 
-            int userId = remoteProxy.GetUser(username, password).Result;
 
-            if (userId > -1)
+            label4.Visible = true;
+            label4.Text = "Logging in...";
+            progressBar1.Visible = true;
+
+            IProgress<int> progress = new Progress<int>(value => { progressBar1.Value = value; });
+
+            User u = null;
+            bool success = false;
+            await Task.Run(() =>
             {
-                User u = remoteProxy.GetUserData(userId).Result;
+                progress.Report(33);
+                int userId = remoteProxy.GetUser(username, password).Result;
+                progress.Report(66);
+
+                if (userId > -1)
+                {
+                    progress.Report(99);
+                    u = remoteProxy.GetUserData(userId).Result;
+
+                    success = true;
+                }
+            });
+
+            if (success)
+            {
                 Hide();
                 Form2 LOGIN = new Form2(remoteProxy, u);
                 LOGIN.ShowDialog();
@@ -59,19 +80,40 @@ namespace WindowsFormsApplicationNovember
             {
                 //Show error message
                 label3.Visible = true;
+                progress.Report(0);
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void Button2_Click(object sender, EventArgs e)
         {
             string username = textBox1.Text;
             string password = textBox2.Text;
 
-            int userId = remoteProxy.RegisterUser(username, password).Result;
+            label4.Visible = true;
+            label4.Text = "Registration...";
+            progressBar1.Visible = true;
 
-            if (userId > -1)
+            IProgress<int> progress = new Progress<int>(value => { progressBar1.Value = value; });
+
+            User u = null;
+            bool success = false;
+            await Task.Run(() =>
             {
-                User u = remoteProxy.GetUserData(userId).Result;
+                progress.Report(33);
+                int userId = remoteProxy.RegisterUser(username, password).Result;
+                progress.Report(66);
+
+                if (userId > -1)
+                {
+                    progress.Report(99);
+                    u = remoteProxy.GetUserData(userId).Result;
+                    
+                    success = true;
+                }
+            });
+
+            if (success)
+            {
                 Hide();
                 Form2 LOGIN = new Form2(remoteProxy, u);
                 LOGIN.ShowDialog();
@@ -81,6 +123,7 @@ namespace WindowsFormsApplicationNovember
             {
                 //Show error message
                 label3.Visible = true;
+                progress.Report(0);
             }
         }
     }
