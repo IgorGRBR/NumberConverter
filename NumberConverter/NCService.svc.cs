@@ -12,7 +12,7 @@ using NumberConverter.Models;
 
 namespace NumberConverter
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class NCService : INCService
     {
 
@@ -129,7 +129,7 @@ namespace NumberConverter
         //Helper method that converts numbers to roman
         public static string ToRoman(int number)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(250);
             if (number < 0) throw new ArgumentOutOfRangeException("insert positive value");
             if (number >= 1000) return "M" + ToRoman(number - 1000);
             if (number >= 900) return "CM" + ToRoman(number - 900);
