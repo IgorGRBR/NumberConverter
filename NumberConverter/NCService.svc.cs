@@ -27,6 +27,8 @@ namespace NumberConverter
         {
             var task = Task.Factory.StartNew(() =>
             {
+                //Value and userId should be positive
+                if (value <= 0 || userId < 0) return -1;
 
                 Conversion conversion = new Conversion();
                 conversion.Original = value.ToString();
@@ -113,6 +115,10 @@ namespace NumberConverter
         {
             var task = Task.Factory.StartNew(() =>
             {
+                //string and pass should not be empty nor null
+                if (name == String.Empty || pass == String.Empty) return -1;
+                if (name == null || pass == null) return -1;
+
                 Thread.Sleep(2000);
                 User user = new User();
                 user.Name = name;
