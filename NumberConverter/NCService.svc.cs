@@ -27,13 +27,16 @@ namespace NumberConverter
         {
             var task = Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(100);
 
                 Conversion conversion = new Conversion();
                 conversion.Original = value.ToString();
                 conversion.Converted = ToRoman(value);
+                Thread thread = new Thread(() => { conversion.Converted = ToRoman(value); });
+                thread.Start();
                 conversion.ConversionTime = DateTime.Now.ToString();
                 conversion.UserId = userId;
+                Thread.Sleep(100);
+                thread.Join();
                 _context.Conversions.Add(conversion);
                 _context.SaveChangesAsync();
                 return conversion.Id;
@@ -126,6 +129,7 @@ namespace NumberConverter
         //Helper method that converts numbers to roman
         public static string ToRoman(int number)
         {
+            Thread.Sleep(500);
             if (number < 0) throw new ArgumentOutOfRangeException("insert positive value");
             if (number >= 1000) return "M" + ToRoman(number - 1000);
             if (number >= 900) return "CM" + ToRoman(number - 900);
